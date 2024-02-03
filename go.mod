@@ -1,4 +1,4 @@
-module lang_learn
+module github.com/koenigscode/bettau_cli
 
 go 1.20
 
