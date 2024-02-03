@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/charmbracelet/bubbles/key"
 	"github.com/charmbracelet/huh"
 )
 
@@ -31,14 +32,17 @@ type State struct {
 
 func SelectLanguage(state *State) {
 	var chosen string
-	huh.NewSelect[string]().
-		Title("Choose a language").
-		Options(
-			huh.NewOptions[string](append(state.Languages, "Add language", "Exit")...)...,
-		).
-		Value(&chosen).
-		WithKeyMap(huh.NewDefaultKeyMap()).
-		Run()
+	huh.NewForm(
+		huh.NewGroup(
+			huh.NewSelect[string]().
+				Title("Choose a language").
+				Options(
+					huh.NewOptions[string](append(state.Languages, "Add language", "Exit")...)...,
+				).
+				Value(&chosen).
+				WithKeyMap(huh.NewDefaultKeyMap()),
+		),
+	).Run()
 
 	switch chosen {
 	case AddLanguageAction:
@@ -54,10 +58,13 @@ func SelectLanguage(state *State) {
 func AddLanguage(state *State) {
 	var newLanguage string
 	if state.CurrentState == AddLanguageState {
-		huh.NewInput().
-			Title("What language would you like to add?").
-			Value(&newLanguage).
-			Run()
+		huh.NewForm(
+			huh.NewGroup(
+				huh.NewInput().
+					Title("What language would you like to add?").
+					Value(&newLanguage),
+			),
+		).Run()
 	}
 	state.Languages = append(state.Languages, newLanguage)
 	state.CurrentState = SelectLanguageState
@@ -65,17 +72,20 @@ func AddLanguage(state *State) {
 
 func LearnMenu(state *State) {
 	var chosen string
-	huh.NewSelect[string]().
-		Options(
-			huh.NewOption("Learn new words", LearnState),
-			huh.NewOption("Review words", ReviewState),
-			huh.NewOption("Import from file", ImportState),
-			huh.NewOption("Back", BackAction),
-		).
-		Title("What would you like to do?").
-		Description(fmt.Sprintf("You selected %s", state.CurrentLanguage)).
-		Value(&chosen).
-		Run()
+	huh.NewForm(
+		huh.NewGroup(
+			huh.NewSelect[string]().
+				Options(
+					huh.NewOption("Learn new words", LearnState),
+					huh.NewOption("Review words", ReviewState),
+					huh.NewOption("Import from file", ImportState),
+					huh.NewOption("Back", BackAction),
+				).
+				Title("What would you like to do?").
+				Description(fmt.Sprintf("You selected %s", state.CurrentLanguage)).
+				Value(&chosen),
+		),
+	).Run()
 
 	if chosen == "Back" {
 		state.CurrentState = SelectLanguageState
@@ -86,20 +96,34 @@ func LearnMenu(state *State) {
 
 }
 func ImportFromFile(state *State) {
-	huh.NewFilePicker().
-		Title("Select a file:").
-		AllowedTypes([]string{".lang"}).
-		CurrentDirectory("/Users/koenig").
-		Run()
+	huh.NewForm(
+		huh.NewGroup(
+			huh.NewFilePicker().
+				Title("Select a file:").
+				AllowedTypes([]string{".lang"}).
+				CurrentDirectory("/Users/koenig"),
+		),
+	).Run()
+}
+
+func WelcomeScreen() {
+	keymap := huh.KeyMap{
+		Note: huh.NoteKeyMap{Submit: key.NewBinding(key.WithKeys("enter"), key.WithHelp("enter", "continue"))},
+	}
+
+	huh.NewForm(
+		huh.NewGroup(
+			huh.NewNote().
+				Title("Welcome to lang-learn").
+				Description("Helps you learn languages bla blabla"),
+		),
+	).WithKeyMap(&keymap).Run()
 }
 
 func main() {
 	state := State{CurrentState: SelectLanguageState}
 
-	huh.NewNote().
-		Title("Welcome to lang-learn").
-		Description("Helps you learn languages bla blabla").
-		Run()
+	WelcomeScreen()
 
 	for {
 		switch state.CurrentState {
