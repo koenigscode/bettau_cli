@@ -5,10 +5,15 @@ go 1.20
 require github.com/charmbracelet/huh v0.3.1-0.20240129230309-953ab11f5936 // TODO: use proper version
 
 require (
+	github.com/charmbracelet/bubbles v0.17.2-0.20240129221336-07e7bd4ee418
+	github.com/sashabaranov/go-openai v1.19.2
+	gopkg.in/yaml.v3 v3.0.1
+)
+
+require (
 	github.com/atotto/clipboard v0.1.4 // indirect
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
 	github.com/catppuccin/go v0.2.0 // indirect
-	github.com/charmbracelet/bubbles v0.17.2-0.20240129221336-07e7bd4ee418 // indirect
 	github.com/charmbracelet/bubbletea v0.25.0 // indirect
 	github.com/charmbracelet/lipgloss v0.9.1 // indirect
 	github.com/containerd/console v1.0.4-0.20230313162750-1ae8d489ac81 // indirect
@@ -26,5 +31,4 @@ require (
 	golang.org/x/sys v0.16.0 // indirect
 	golang.org/x/term v0.16.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
-	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
