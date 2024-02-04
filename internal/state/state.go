@@ -1,10 +1,12 @@
 package state
 
+import "github.com/koenigscode/bettau_cli/pkg/deck"
+
 type State int
-type Language string
 
 const (
 	Learn          State = iota
+	DeckDetails    State = iota
 	Review         State = iota
 	Import         State = iota
 	AddLanguage    State = iota
@@ -13,7 +15,7 @@ const (
 )
 
 type ApplicationState struct {
-	CurrentState    State
-	CurrentLanguage Language
-	Languages       []Language
+	CurrentState State
+	CurrentDeck  deck.Deck
+	Decks        []deck.Deck
 }
