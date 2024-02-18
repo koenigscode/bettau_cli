@@ -28,7 +28,7 @@ func (g *ChatGPTGrader) Grade(q GradeQuery) GradeResult {
 			},
 			"solution": {
 				Type:        jsonschema.String,
-				Description: "The correct translation.",
+				Description: "The correct translation, if the user's translation was wrong.",
 			},
 			"feedback": {
 				Type:        jsonschema.String,
@@ -48,13 +48,13 @@ func (g *ChatGPTGrader) Grade(q GradeQuery) GradeResult {
 	}
 
 	dialogue := []openai.ChatCompletionMessage{
-		{Role: openai.ChatMessageRoleSystem, Content: "You are a language learning app, telling the user if their translation is correct and provide them with solution and feedback. The user speaks English and learns Swedish. Always pay attention to proper capitalization and punctuation."},
+		{Role: openai.ChatMessageRoleSystem, Content: "You are a language learning app, telling the user if their translation is correct and provide them with solution and feedback. The user speaks English and learns " + q.Name + "."},
 		{Role: openai.ChatMessageRoleSystem, Content: fmt.Sprintf("The user translated %s to %s", q.Question, q.Input)},
 	}
 
 	resp, err := g.Client.CreateChatCompletion(ctx,
 		openai.ChatCompletionRequest{
-			Model:    openai.GPT3Dot5Turbo,
+			Model:    openai.GPT4TurboPreview,
 			Messages: dialogue,
 			Tools:    []openai.Tool{tool},
 		},
