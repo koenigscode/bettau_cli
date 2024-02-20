@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/koenigscode/bettau_cli/blob/main/bettau.schema.json",
+  "title": "bettaU Deck",
+  "description": "A bettaU deck of questions",
+  "type": "object",
+  "properties": {
+    "name": {
+      "description": "Name of the deck, should be descriptive; e.g. 'Swedish'",
+      "type": "string"
+    },
+    "contents": {
+      "description": "Name of the product",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}
