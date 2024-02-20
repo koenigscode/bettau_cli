@@ -1,5 +1,8 @@
 {
     "yaml.schemas": {
-        "./bettau.schema.json": "*.bettau.yaml"
+        "./bettau.schema.json": [
+            "*.bettau.yaml",
+            "*.bettau.yml"
+        ]
     },
 }
