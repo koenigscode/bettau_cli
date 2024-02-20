@@ -1,4 +1,3 @@
-$schema: "https://github.com/koenigscode/bettau_cli/blob/main/bettau.schema.json"
 name: Swedish
 contents:
   - She reads books every night.
